@@ -1,0 +1,39 @@
+/* Home.css */
+
+/* Ensure full-screen container */
+.home {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    justify-content: center; /* Center vertically */
+    align-items: center; /* Center horizontally */
+    height: 100vh; /* Full viewport height */
+    width: 100vw; /* Full viewport width */
+    background-color: #111827; /* Charcoal black background */
+    color: #EAEAEA; /* Soft white text */
+    text-align: center;
+    top: 0;
+    left: 0;
+  }
+  
+  /* Centered text */
+  .header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+  }
+  
+  /* Button styling */
+  .buttons button {
+    background-color: #8B5CF6; /* Vibrant purple */
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  .buttons button:hover {
+    background-color: #FACC15; /* Gold hover effect */
+    color: black;
+  }
