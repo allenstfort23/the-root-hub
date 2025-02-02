@@ -1,0 +1,17 @@
+/* Navbar.css */
+.navbar {
+    background-color: #111827 !important; /* Charcoal Black */
+    color: #EAEAEA !important;
+    padding: 16px;
+  }
+  
+  .navbar a {
+    color: #EAEAEA !important;
+    text-decoration: none;
+    margin: 0 12px;
+  }
+  
+  .navbar a:hover {
+    color: #8B5CF6 !important; /* Vibrant Purple */
+  }
+  
