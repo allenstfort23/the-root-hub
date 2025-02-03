@@ -11,11 +11,19 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import "./App.css";
 
 function App() {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    setIsAuthenticated(!!token);
     setTimeout(() => setLoading(false), 3000); // Show loading screen for 3 seconds
   }, []);
+
+  const handleLogOut = () => {
+    localStorage.removeItem("token");
+    setIsAuthenticated(false);
+  };
 
   return (
     <>
@@ -23,10 +31,16 @@ function App() {
         <Loading />
       ) : (
         <Router>
-          <Navbar />
+          <Navbar
+            isAuthenticated={isAuthenticated}
+            handleLogOut={handleLogOut}
+          />
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
+            <Route
+              path="/login"
+              element={<Login setIsAuthenticated={setIsAuthenticated} />}
+            />
             <Route path="/signup" element={<SignUp />} />
             <Route element={<ProtectedRoute />}>
               <Route path="/dashboard" element={<Dashboard />} />

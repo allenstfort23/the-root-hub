@@ -1,11 +1,15 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom"; // ✅ Import useNavigate
+import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
 
-const Login = () => {
+interface LoginProps {
+  setIsAuthenticated: (auth: boolean) => void;
+}
+
+const Login = ({ setIsAuthenticated }: LoginProps) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate(); // ✅ Initialize useNavigate
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,13 +26,15 @@ const Login = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        alert(data.message || "Invalid username or password"); // ✅ Show error message
+        alert(data.message || "Invalid username or password"); // Show error message
         return; // ✅ Prevent further execution
       }
 
       if (data.token) {
-        localStorage.setItem("token", data.token); // ✅ Store JWT
-        navigate("/dashboard"); // ✅ Redirect after login
+        console.log("Login successful, saving token...");
+        localStorage.setItem("token", data.token); //  Store JWT
+        setIsAuthenticated(true);
+        navigate("/dashboard"); // Redirect after login
       }
     } catch (error) {
       console.error("Login error:", error);
