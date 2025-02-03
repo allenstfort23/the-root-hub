@@ -1,16 +1,17 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // ✅ Import useNavigate
 import "./Login.css";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate(); // ✅ Initialize useNavigate
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
-      const response = await fetch(`http://localhost:3000/api/login`, {
+      const response = await fetch("http://localhost:3000/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -21,14 +22,17 @@ const Login = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || "Something went wrong");
+        alert(data.message || "Invalid username or password"); // ✅ Show error message
+        return; // ✅ Prevent further execution
       }
 
-      alert(data.message);
-      setUsername("");
-      setPassword("");
+      if (data.token) {
+        localStorage.setItem("token", data.token); // ✅ Store JWT
+        navigate("/dashboard"); // ✅ Redirect after login
+      }
     } catch (error) {
-      alert("Error: " + error.message);
+      console.error("Login error:", error);
+      alert("Something went wrong. Please try again.");
     }
   };
 

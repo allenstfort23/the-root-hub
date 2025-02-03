@@ -5,6 +5,9 @@ import Home from "./pages/Home/Home";
 import SignUp from "./pages/SignUp/SignUp";
 import Login from "./pages/Login/Login";
 import Loading from "./components/Animation/Loading";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Dashboard from "./pages/Dashboard/Dashboard";
+
 import "./App.css";
 
 function App() {
@@ -25,6 +28,9 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
+            <Route element={<ProtectedRoute />}>
+              <Route path="/dashboard" element={<Dashboard />} />
+            </Route>
           </Routes>
         </Router>
       )}
