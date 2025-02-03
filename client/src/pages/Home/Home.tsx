@@ -12,11 +12,9 @@ const Home = () => {
         className="buttons"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}>
-        <button className="main-button">All Code, All Black</button>
+        <button className="main-button">Rooted in Code, Built for Us</button>
         {isHovered && (
-          <p className="dropdown">
-            🔹 C.O.D.E. → Community of Developers & Engineers
-          </p>
+          <p className="dropdown"> R.O.O.T. → Raising Our Own Tech</p>
         )}
       </div>
     </div>
