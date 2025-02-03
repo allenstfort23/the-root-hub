@@ -43,7 +43,15 @@ function App() {
             />
             <Route path="/signup" element={<SignUp />} />
             <Route element={<ProtectedRoute />}>
-              <Route path="/dashboard" element={<Dashboard />} />
+              <Route
+                path="/dashboard"
+                element={
+                  <Dashboard
+                    isAuthenticated={isAuthenticated}
+                    handleLogout={handleLogOut}
+                  />
+                }
+              />
             </Route>
           </Routes>
         </Router>

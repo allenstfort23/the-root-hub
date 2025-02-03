@@ -2,7 +2,11 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getUserProfile } from "../../utils/api";
 
-const Dashboard = () => {
+interface DashboardProps {
+  isAuthenticated: boolean;
+  handleLogout: () => void;
+}
+const Dashboard = ({ isAuthenticated, handleLogout }: DashboardProps) => {
   const [user, setUser] = useState<{ id: number; username: string } | null>(
     null
   );
@@ -29,10 +33,6 @@ const Dashboard = () => {
     fecthUser();
   }, [navigate]);
 
-  const handleLogOut = () => {
-    localStorage.removeItem("token"); // remove token
-    navigate("/login");
-  };
   return (
     <div className="p-5 mb-4 bg-body-tertiary rounded-3">
       <div className="container-fluid py-5">
@@ -40,7 +40,9 @@ const Dashboard = () => {
           Welcome {user ? user.username : "Loading..."}
         </h1>
         <p className="col-md8 fs-4">You're successfully logg in!</p>
-        <button onClick={handleLogOut}>Logout</button>
+        <button className="btn btn-danger" onClick={handleLogout}>
+          Logout
+        </button>
       </div>
     </div>
   );
