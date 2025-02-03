@@ -4,6 +4,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const bcrypt = require("bcrypt");
 const { Pool } = require("pg");
+const jwt = require("jsonwebtoken");
 
 const app = express();
 
@@ -37,6 +38,47 @@ pool
 // Welcome route
 app.get("/api", (req, res) => {
   res.send("Welcome to The Root Hub");
+});
+
+app.get("/api/users", async (req, res) => {
+  try {
+    const users = await pool.query("SELECT id, username FROM users");
+    res.json(users.rows);
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+const authenticateToken = (req, res, next) => {
+  const token = req.header("Authorization");
+
+  if (!token) return res.status(403).json({ message: "Acces denied" });
+
+  jwt.verify(token.split(" ")[1], process.env.JWT_SECRET, (err, user) => {
+    if (err) return res.status(403).json({ message: "Invalid token" });
+
+    req.user = user;
+    next();
+  });
+};
+
+app.get("/api/profile", authenticateToken, async (req, res) => {
+  try {
+    const user = await pool.query(
+      "SELECT id, username FROM users WHERE id = $1",
+      [req.user.userId]
+    );
+
+    if (user.rows.length === 0) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json(user.rows[0]);
+  } catch (error) {
+    console.error("Error fetching profile:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
 });
 
 // Fetch posts
@@ -76,7 +118,7 @@ app.post("/api/register", async (req, res) => {
 });
 
 // Login a user
-app.post("/api/login", async (res, req) => {
+app.post("/api/login", async (req, res) => {
   const { username, password } = req.body;
 
   try {
@@ -88,12 +130,28 @@ app.post("/api/login", async (res, req) => {
       return res.status(401).json({ message: "Invalid username or password" });
     }
 
-    res.json({ message: "Login successful" });
+    const isMatch = await bcrypt.compare(password, user.rows[0].password);
+
+    if (!isMatch) {
+      return res.status(401).json({ message: "Invalid username or password" });
+    }
+
+    // Generate JWT token
+    const token = jwt.sign(
+      { userId: user.rows[0].id, username },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1h",
+      }
+    );
+
+    res.json({ message: "Login successful", token });
   } catch (error) {
     console.error("Error logging in:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 });
+
 // Start the server
 app.listen(PORT, () =>
   console.log(`Server running on http://localhost:${PORT}`)
