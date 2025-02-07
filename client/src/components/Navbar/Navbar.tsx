@@ -36,9 +36,9 @@ const Navbar = ({ isAuthenticated, handleLogOut }: NavbarProps) => {
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">
-                Pricing
-              </a>
+              <Link to="/aboutus" className="nav-link">
+                About Us
+              </Link>
             </li>
             <li className="nav-item">
               {isAuthenticated ? (

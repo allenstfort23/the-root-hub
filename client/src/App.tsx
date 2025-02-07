@@ -7,6 +7,7 @@ import Login from "./pages/Login/Login";
 import Loading from "./components/Animation/Loading";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Dashboard from "./pages/Dashboard/Dashboard";
+import AboutUs from "./pages/About/AboutUs";
 
 import "./App.css";
 
@@ -42,6 +43,7 @@ function App() {
               element={<Login setIsAuthenticated={setIsAuthenticated} />}
             />
             <Route path="/signup" element={<SignUp />} />
+            <Route path="/aboutus" element={<AboutUs />} />
             <Route element={<ProtectedRoute />}>
               <Route
                 path="/dashboard"
