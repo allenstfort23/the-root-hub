@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { getUserProfile } from "../../utils/api";
 
 const Profile = () => {
@@ -10,11 +10,21 @@ const Profile = () => {
     bio: string;
   } | null>(null);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     const fetchUser = async () => {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        console.log("No token found");
+        navigate("/login");
+        return;
+      }
+
       try {
-        const profile = await getUserProfile(userId);
-        setUser(profile);
+        const userData = await getUserProfile(token);
+        setUser(userData);
       } catch (error) {
         console.error("Error fetching user profile", error);
       }
@@ -27,7 +37,7 @@ const Profile = () => {
 
   return (
     <div className="profile-container">
-      <h1>{user ? user?.username : "Loading"}</h1>
+      <h1>{user ? user.username : "Loading"}</h1>
       <p>{user ? user.bio : "Loading bio..."}</p>
     </div>
   );

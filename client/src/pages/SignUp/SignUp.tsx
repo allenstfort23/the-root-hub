@@ -43,7 +43,7 @@ const SignUp = () => {
               Create an account to join the community.
             </p>
             <form onSubmit={handleSubmit}>
-              <input
+              {/* <input
                 type="text"
                 placeholder="First Name"
                 value={username}
@@ -66,12 +66,11 @@ const SignUp = () => {
                 minLength={4}
                 onChange={(e) => setUsername(e.target.value)}
                 required
-              />
+              /> */}
               <input
                 type="text"
                 placeholder="Username"
                 value={username}
-                minLength={4}
                 onChange={(e) => setUsername(e.target.value)}
                 required
               />
@@ -79,7 +78,6 @@ const SignUp = () => {
                 type="password"
                 placeholder="Password"
                 value={password}
-                minLength={8}
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />

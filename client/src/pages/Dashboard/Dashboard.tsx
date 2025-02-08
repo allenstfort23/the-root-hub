@@ -13,7 +13,7 @@ const Dashboard = ({ isAuthenticated, handleLogout }: DashboardProps) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fecthUser = async () => {
+    const fetchUser = async () => {
       const token = localStorage.getItem("token");
 
       if (!token) {
@@ -30,7 +30,7 @@ const Dashboard = ({ isAuthenticated, handleLogout }: DashboardProps) => {
       }
     };
 
-    fecthUser();
+    fetchUser();
   }, [navigate]);
 
   return (
