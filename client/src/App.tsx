@@ -8,6 +8,7 @@ import Loading from "./components/Animation/Loading";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import AboutUs from "./pages/About/AboutUs";
+import Profile from "./pages/Profile/Profile";
 
 import "./App.css";
 
@@ -54,6 +55,7 @@ function App() {
                   />
                 }
               />
+              <Route path="/profile/:userId" element={<Profile />} />
             </Route>
           </Routes>
         </Router>

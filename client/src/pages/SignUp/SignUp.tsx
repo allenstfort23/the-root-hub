@@ -45,8 +45,33 @@ const SignUp = () => {
             <form onSubmit={handleSubmit}>
               <input
                 type="text"
+                placeholder="First Name"
+                value={username}
+                minLength={4}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+              />
+              <input
+                type="text"
+                placeholder="Last Name"
+                value={username}
+                minLength={4}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+              />
+              <input
+                type="email"
+                placeholder="Email"
+                value={username}
+                minLength={4}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+              />
+              <input
+                type="text"
                 placeholder="Username"
                 value={username}
+                minLength={4}
                 onChange={(e) => setUsername(e.target.value)}
                 required
               />
@@ -54,6 +79,7 @@ const SignUp = () => {
                 type="password"
                 placeholder="Password"
                 value={password}
+                minLength={8}
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
