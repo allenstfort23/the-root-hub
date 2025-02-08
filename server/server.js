@@ -50,21 +50,6 @@ app.get("/api/users", async (req, res) => {
   }
 });
 
-app.get("/api/profile/:id", async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    const user = await pool.query("SELECT * FROM users WHERE id = $1", [id]);
-
-    if (user.rows.length === 0) {
-      return res.status(404).json({ message: "User not found" });
-    }
-    res.json(user.rows[0]);
-  } catch (error) {
-    res.status(500).json({ message: "Error fecthing profile" });
-  }
-});
-
 const authenticateToken = (req, res, next) => {
   const token = req.header("Authorization");
 
@@ -72,7 +57,7 @@ const authenticateToken = (req, res, next) => {
 
   jwt.verify(token.split(" ")[1], process.env.JWT_SECRET, (err, user) => {
     if (err) return res.status(403).json({ message: "Invalid token" });
-
+    console.log("Decoded user:", user); // Log the user object to check payload
     req.user = user;
     next();
   });
@@ -93,6 +78,21 @@ app.get("/api/profile", authenticateToken, async (req, res) => {
   } catch (error) {
     console.error("Error fetching profile:", error);
     res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+app.get("/api/profile/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const user = await pool.query("SELECT * FROM users WHERE id = $1", [id]);
+
+    if (user.rows.length === 0) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.json(user.rows[0]);
+  } catch (error) {
+    res.status(500).json({ message: "Error fecthing profile" });
   }
 });
 
